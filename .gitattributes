@@ -1,0 +1,2 @@
+# Keep source and protocol fixtures consistent across Windows and Unix.
+* text=auto eol=lf

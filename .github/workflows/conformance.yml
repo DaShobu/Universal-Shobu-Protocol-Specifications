@@ -1,0 +1,31 @@
+name: USP conformance
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  six-languages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned Zig
+        shell: bash
+        run: |
+          mkdir -p build/zig-toolchain
+          curl --fail --location --retry 3 https://ziglang.org/download/0.15.2/zig-x86_64-linux-0.15.2.tar.xz -o build/zig.tar.xz
+          echo '02aa270f183da276e5b5920b1dac44a63f1a49e55050ebde3aecc9eb82f93239  build/zig.tar.xz' | sha256sum --check
+          tar -xf build/zig.tar.xz -C build/zig-toolchain
+          echo "$GITHUB_WORKSPACE/build/zig-toolchain/zig-x86_64-linux-0.15.2" >> "$GITHUB_PATH"
+      - name: Compile all native examples and test Zig facade
+        run: python scripts/build.py --require-all
+      - name: Test rules and canonical SFEN
+        run: python -m unittest discover -s tests -p test_rules.py -v
+      - name: Test JavaScript API
+        run: node tests/javascript_api.mjs
+      - name: Check all six protocol engines
+        run: python tests/conformance.py --require-all

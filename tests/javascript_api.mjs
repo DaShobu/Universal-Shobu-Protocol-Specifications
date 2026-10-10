@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import { INITIAL, parseSFEN, sfen, play, legal, result, Engine } from '../examples/javascript/engine.mjs';
+const start = parseSFEN(INITIAL);
+assert.equal(legal(start).length, 232);
+assert.equal(result(start), 'ongoing');
+assert.equal(sfen(play(start,'0a1a2:1b1b2')), 'WWWW/4/B3/1BBB|WWWW/4/1B2/B1BB|WWWW/4/4/BBBB|WWWW/4/4/BBBB w 1');
+assert.equal(sfen(start),INITIAL);
+for (const suffix of ['\r','\n','\0','\r\n']) assert.throws(()=>parseSFEN(INITIAL+suffix), /^Error: sfen$/);
+assert.throws(()=>play(start,'0a1a2:1a1a2\n'), /^Error: syntax$/);
+assert.throws(()=>play(start,'2a1a2:3a1a2'), /^Error: illegal$/);
+const engine = new Engine();
+assert.equal(engine.handle('hello 1'),'ok usp 1');
+assert.equal(engine.handle('position bad'),'error sfen');
+assert.equal(engine.handle('state'),'state '+INITIAL);
+console.log('PASS JavaScript API');
