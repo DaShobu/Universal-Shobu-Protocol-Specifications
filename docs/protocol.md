@@ -90,4 +90,5 @@ the terminator. The examples cap requests, not responses.
 
 SFEN replacement supports replay by loading a base position and issuing complete
 `play` requests in order. A client records responses, final SFEN, and external
-match metadata separately. This baseline does not define a saved-game container.
+match metadata separately. [SSGF v1](ssgf-v1.md) defines the separate saved-game
+container used by cani; it adds no commands to this USP 1.0 baseline.

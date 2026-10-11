@@ -158,12 +158,12 @@ int shobu_run(void) {
     for(;;) {
         char line[4099];size_t length=0;int overflow=0,c;
         while((c=getchar())!=EOF&&c!='\n') {if(length<4098) line[length++]=(char)c;else overflow=1;}
-        if(c==EOF) break;
+        if(c==EOF) {if(ferror(stdin)) return 1;break;}
         if(length&&line[length-1]=='\r') length--;
         line[length]='\0';
         /* NUL is invalid even though C strings terminate at it. */
         if(overflow||memchr(line,0,length)||!valid_line(line)) puts("error syntax");
-        else if(!strcmp(line,"quit")) {puts("ok bye");fflush(stdout);break;}
+        else if(!strcmp(line,"quit")) {puts("ok bye");if(fflush(stdout)==EOF||ferror(stdout)) return 1;break;}
         else if(!strcmp(line,"hello")||!strncmp(line,"hello ",6)) {
             if(strcmp(line,"hello 1")) puts("error version");
             else {negotiated=1;puts("ok usp 1");}
@@ -184,7 +184,7 @@ int shobu_run(void) {
             if(!strcmp(line,"go")) printf("bestmove %s\n",n?moves[0].text:"none");
             else {fputs("legal",stdout);for(int i=0;i<n;i++) printf(" %s",moves[i].text);putchar('\n');}
         } else puts("error syntax");
-        if(fflush(stdout)==EOF) return 1;
+        if(fflush(stdout)==EOF||ferror(stdout)) return 1;
     }
     return 0;
 }

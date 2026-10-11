@@ -43,6 +43,10 @@ def main():
             if version!='0.15.2': parser.error('Zig 0.15.2 required; found '+version)
         subprocess.run([compiler,*options],cwd=ROOT,check=True)
         print('BUILT '+name,flush=True)
+        if name=='c':
+            transport_test=BUILD/f'c-transport-test{suffix}'
+            subprocess.run([compiler,'-std=c99','-O2','-Wall','-Wextra','-Werror','tests/c_transport.c','-o',str(transport_test)],cwd=ROOT,check=True)
+            subprocess.run([str(transport_test)],cwd=ROOT,check=True)
         if name=='cpp':
             api_test=BUILD/f'cpp-api-test{suffix}'
             subprocess.run([compiler,'-std=c++17','-O2','-Wall','-Wextra','-Werror','tests/cpp_api.cpp','-o',str(api_test)],cwd=ROOT,check=True)

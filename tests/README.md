@@ -1,5 +1,11 @@
 # Validation
 
+`fixtures/ssgf/` contains the exact SSGF fixtures from cani commit `18ef4ab`:
+valid empty, opening, and winning readable records; a golden binary opening;
+and invalid duplicate-key and illegal-turn records. See
+[SSGF v1](../docs/ssgf-v1.md). These files are separate from the USP conformance
+suite below; cani's feature-enabled tests validate its SSGF codecs against them.
+
 Run from the repository root:
 
 ```text
@@ -38,3 +44,5 @@ python tests/conformance.py --engine python path/to/your_engine.py
 
 These commands require no third-party Python packages. Build artifacts and local
 toolchains go in ignored `build/`; no compiler downloads occur in the build script.
+The native build also runs C transport fault-injection checks for input failures,
+output failures, normal EOF, and quit, including failure while flushing `ok bye`.

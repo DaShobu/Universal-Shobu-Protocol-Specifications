@@ -13,6 +13,7 @@ claim of adoption by other software.
 | --- | --- |
 | [Formal game specification](docs/game.md) | Board identity, coordinates, setup, complete turns, exact pushing transitions, validity and outcomes |
 | [SFEN 1.0](docs/sfen.md) | Grammar, canonical parsing, structural validation, examples and limits |
+| [SSGF v1](docs/ssgf-v1.md) | Exact cani saved-game specification: RSSGF, BSSGF, metadata, replay and results |
 | [USP 1.0](docs/protocol.md) | Transport, negotiation, commands, errors, atomicity and example session |
 | [Reference examples](examples/README.md) | Six language entry points, build commands and library APIs |
 | [Conformance tests](tests/README.md) | Golden fixtures, seeded differential checks and framing tests |
@@ -66,6 +67,12 @@ checks all six on Ubuntu. C++ and Zig intentionally share the C core through nat
 facades; Python, JavaScript, Rust, and C contain direct rules implementations.
 
 ## Versioning and contribution
+
+The [SSGF v1 specification](docs/ssgf-v1.md), saved-game examples in
+`examples/ssgf/`, and fixtures in `tests/fixtures/ssgf/` are verbatim copies from
+[cani commit 18ef4ab](https://github.com/DaShobu/cani/commit/18ef4abbd48aa2ced7b262e1296635d82c8347d3).
+They define the same SSGF, without local rule changes. SSGF is separate from the
+USP 1.0 command protocol; its codecs are supplied by cani's optional `ssgf` feature.
 
 Any incompatible grammar, command semantics, coordinate convention, or game
 profile change requires a new protocol major version. Clarifications and

@@ -1,5 +1,10 @@
 # Reference engines
 
+The saved-game examples [tournament.rssgf](ssgf/tournament.rssgf) and
+[tournament.bssgf](ssgf/tournament.bssgf) are exact copies from cani's SSGF commit.
+See [SSGF v1](../docs/ssgf-v1.md) for their format. The USP engines below do not
+implement SSGF codecs; those are provided by cani's optional `ssgf` feature.
+
 Every example implements the entire mandatory USP 1.0 protocol: canonical SFEN,
 complete-turn validation, pushing/capture, legal generation, results, and a
 deterministic first-legal-move selector. They are educational engines, not strong
